@@ -4,6 +4,16 @@
 
 ## Download Microsoft 365 (Office 365) via ODT with PowerShell 
 
+## Quick Start
+
+**New!** Use the Setup Wizard for an easy, guided installation:
+
+1. Download this repository
+2. Right-click `Setup.ps1` and select "Run with PowerShell" (as Administrator)
+3. Follow the interactive wizard to select and install Office
+
+For detailed instructions, see [INSTALL.md](INSTALL.md)
+
 ## How-to
 
 * Download the latest archive and expand it;
