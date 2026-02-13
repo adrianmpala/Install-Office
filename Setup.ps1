@@ -225,7 +225,8 @@ if ($confirm -ne "Y" -and $confirm -ne "y")
 
 Write-Host ""
 Write-Host "Starting download..." -ForegroundColor Cyan
-Write-Host "Please be patient. This may take 10-30 minutes depending on your connection, and there will be no progress indication." -ForegroundColor Yellow
+Write-Host "Please be patient. Download time varies (typically 10-30 minutes, but may be longer on slower connections)." -ForegroundColor Yellow
+Write-Host "There will be no progress indication during download." -ForegroundColor Yellow
 Write-Host ""
 
 # Run Download.ps1
@@ -295,7 +296,7 @@ try
 	else
 	{
 		Write-Warning "Office files were not found. Download may have failed."
-		Write-Host "Please check that Default.xml exists and try again." -ForegroundColor Yellow
+		Write-Host "Please check that the Default.xml configuration file exists in the script directory and try again." -ForegroundColor Yellow
 	}
 }
 catch
