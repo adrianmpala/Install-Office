@@ -233,75 +233,68 @@ try
 {
 	& "$PSScriptRoot\Download.ps1" -Branch $Branch -Channel $Channel -Components $Components
 	
-	if ($LASTEXITCODE -eq 0 -or $null -eq $LASTEXITCODE)
+	Write-Host ""
+	
+	# Check if Office folder was created to verify successful download
+	if (Test-Path -Path "$PSScriptRoot\Office\Data\*\stream.x64.x-none.dat")
 	{
-		Write-Host ""
 		Write-Host "Download completed successfully!" -ForegroundColor Green
+		Write-Host "Office files are ready for installation." -ForegroundColor Green
 		Write-Host ""
 		
-		# Check if Office folder was created
-		if (Test-Path -Path "$PSScriptRoot\Office")
+		# Ask if user wants to install now
+		$installNow = Read-Host "Do you want to install Office now? (Y/N)"
+		
+		if ($installNow -eq "Y" -or $installNow -eq "y")
 		{
-			Write-Host "Office files are ready for installation." -ForegroundColor Green
+			Write-Host ""
+			Write-Host "Starting Office installation..." -ForegroundColor Cyan
 			Write-Host ""
 			
-			# Ask if user wants to install now
-			$installNow = Read-Host "Do you want to install Office now? (Y/N)"
-			
-			if ($installNow -eq "Y" -or $installNow -eq "y")
+			# Run Install.ps1
+			try
 			{
+				& "$PSScriptRoot\Install.ps1"
+				
 				Write-Host ""
-				Write-Host "Starting Office installation..." -ForegroundColor Cyan
+				Write-Host "================================================" -ForegroundColor Green
+				Write-Host "  Installation Complete!" -ForegroundColor Green
+				Write-Host "================================================" -ForegroundColor Green
+				Write-Host ""
+				Write-Host "Office has been installed successfully." -ForegroundColor Green
+				Write-Host "You may need to restart your computer." -ForegroundColor Yellow
 				Write-Host ""
 				
-				# Run Install.ps1
-				try
+				# Optional: Run Configure_Office.ps1
+				$configure = Read-Host "Do you want to apply recommended Office configurations? (Y/N)"
+				
+				if ($configure -eq "Y" -or $configure -eq "y")
 				{
-					& "$PSScriptRoot\Install.ps1"
-					
 					Write-Host ""
-					Write-Host "================================================" -ForegroundColor Green
-					Write-Host "  Installation Complete!" -ForegroundColor Green
-					Write-Host "================================================" -ForegroundColor Green
-					Write-Host ""
-					Write-Host "Office has been installed successfully." -ForegroundColor Green
-					Write-Host "You may need to restart your computer." -ForegroundColor Yellow
-					Write-Host ""
-					
-					# Optional: Run Configure_Office.ps1
-					$configure = Read-Host "Do you want to apply recommended Office configurations? (Y/N)"
-					
-					if ($configure -eq "Y" -or $configure -eq "y")
-					{
-						Write-Host ""
-						Write-Host "Applying configurations..." -ForegroundColor Cyan
-						& "$PSScriptRoot\Configure_Office.ps1"
-						Write-Host "Configurations applied successfully." -ForegroundColor Green
-					}
-				}
-				catch
-				{
-					Write-Error "Installation failed: $_"
-					Write-Host ""
-					Write-Host "You can try running Install.ps1 manually as administrator." -ForegroundColor Yellow
+					Write-Host "Applying configurations..." -ForegroundColor Cyan
+					& "$PSScriptRoot\Configure_Office.ps1"
+					Write-Host "Configurations applied successfully." -ForegroundColor Green
 				}
 			}
-			else
+			catch
 			{
+				Write-Error "Installation failed: $_"
 				Write-Host ""
-				Write-Host "Office files have been downloaded." -ForegroundColor Green
-				Write-Host "To install Office, run the following command as administrator:" -ForegroundColor White
-				Write-Host "  .\Install.ps1" -ForegroundColor Cyan
+				Write-Host "You can try running Install.ps1 manually as administrator." -ForegroundColor Yellow
 			}
 		}
 		else
 		{
-			Write-Warning "Office folder was not created. Download may have failed."
+			Write-Host ""
+			Write-Host "Office files have been downloaded." -ForegroundColor Green
+			Write-Host "To install Office, run the following command as administrator:" -ForegroundColor White
+			Write-Host "  .\Install.ps1" -ForegroundColor Cyan
 		}
 	}
 	else
 	{
-		Write-Error "Download failed with exit code: $LASTEXITCODE"
+		Write-Warning "Office files were not found. Download may have failed."
+		Write-Host "Please check that Default.xml exists and try again." -ForegroundColor Yellow
 	}
 }
 catch

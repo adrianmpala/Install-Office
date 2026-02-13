@@ -71,7 +71,7 @@ Navigate to the Install-Office folder and choose your Office version:
 .\Download.ps1 -Branch O365ProPlusRetail -Channel Current -Components Word,Excel,PowerPoint,Outlook,OneDrive,Teams
 ```
 
-**Note:** The download process is silent - no progress will be shown. Wait for the command to complete (may take 10-30 minutes depending on your connection).
+**Note:** The download process is silent - no progress bar will be shown. Wait for the command to complete (may take 10-30 minutes depending on your connection).
 
 ### Step 3: Install Office
 
