@@ -225,7 +225,7 @@ if ($confirm -ne "Y" -and $confirm -ne "y")
 
 Write-Host ""
 Write-Host "Starting download..." -ForegroundColor Cyan
-Write-Host "Please be patient. This may take several minutes and there will be no progress indication." -ForegroundColor Yellow
+Write-Host "Please be patient. This may take 10-30 minutes depending on your connection, and there will be no progress indication." -ForegroundColor Yellow
 Write-Host ""
 
 # Run Download.ps1
@@ -236,6 +236,7 @@ try
 	Write-Host ""
 	
 	# Check if Office folder was created to verify successful download
+	# The expected path is: Office\Data\<version>\stream.x64.x-none.dat
 	if (Test-Path -Path "$PSScriptRoot\Office\Data\*\stream.x64.x-none.dat")
 	{
 		Write-Host "Download completed successfully!" -ForegroundColor Green
